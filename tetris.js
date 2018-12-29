@@ -1,25 +1,30 @@
 // @ts-check
-const boardCanvas = /** @type {HTMLCanvasElement} */ (document.getElementById('board'));
-const boardCtx = boardCanvas.getContext('2d');
+class Tetris {
+    constructor(options){
+        this.cols = options.cols;
+        this.rows = options.rows;
+        this.boardCanvas = /** @type {HTMLCanvasElement} */ (options.boardCanvas);
+        this.boardCtx = this.boardCanvas.getContext("2d");
+        this.board = [[]];
+        this.cellWidth = this.boardCanvas.width / this.cols;
+        this.cellHeight = this.boardCanvas.height / this.rows;
+    }
 
-const boardColumns = 10;
-const boardRows = 20;
-const board = [[]];
-const columnWidth = boardCanvas.width / boardColumns;
-const columnHeight = boardCanvas.height / boardRows;
-board[0][9] = null;
-
-
-for (let i = 1; i <= boardColumns - 1; i++) {
-    boardCtx.beginPath();
-    boardCtx.moveTo(columnWidth * i, 0);
-    boardCtx.lineTo(columnWidth * i, boardCanvas.height);
-    boardCtx.stroke();
+    drawGrid(){
+        for (let i = 1; i <= this.cols - 1; i++) {
+            this.boardCtx.beginPath();
+            this.boardCtx.moveTo(this.cellWidth * i, 0);
+            this.boardCtx.lineTo(this.cellWidth * i, this.boardCanvas.height);
+            this.boardCtx.stroke();
+        }
+        
+        for (let i = 1; i <= this.rows - 1; i++) {
+            this.boardCtx.beginPath();
+            this.boardCtx.moveTo(0, this.cellHeight * i);
+            this.boardCtx.lineTo(this.boardCanvas.height, this.cellHeight * i);
+            this.boardCtx.stroke();
+        }
+    }
 }
 
-for (let i = 1; i <= boardRows - 1; i++) {
-    boardCtx.beginPath();
-    boardCtx.moveTo(0, columnHeight * i);
-    boardCtx.lineTo(boardCanvas.height, columnHeight * i);
-    boardCtx.stroke();
-}
+
