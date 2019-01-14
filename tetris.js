@@ -9,6 +9,19 @@ class Tetris {
         this.cellWidth = this.boardCanvas.width / this.cols;
         this.cellHeight = this.boardCanvas.height / this.rows;
         this.currentPiece = null;
+
+        this.bindEvents();
+    }
+
+    bindEvents() {
+        document.addEventListener('keydown', (event) => {
+            const keyName = event.key;
+          
+            if (keyName === 'ArrowUp') {
+              this.currentPiece.rotate();
+            }
+          
+          }, false);
     }
 
     drawGrid() {
@@ -30,7 +43,7 @@ class Tetris {
     startGame() {
         setInterval(this.tick, 2000);
     }
-
+   
     tick() {
         if (!this.currentPiece) {
             this.currentPiece = new Piece({

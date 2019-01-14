@@ -13,12 +13,35 @@ class Piece {
         this.setPieceType(this.pieceType);
     }
 
+    draw() {
+        this.canvasCtx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        this.canvasCtx.fillStyle = this.color;
+        const squaresInfo = this.rotationInfo[this.rotation];
+        for (let rowIndex = 0; rowIndex < squaresInfo.length; rowIndex++) {
+            const currentRow = squaresInfo[rowIndex];
+            for (let colIndex = 0; colIndex < currentRow.length; colIndex++) {
+                if (currentRow[colIndex]) {
+                    this.canvasCtx.fillRect(
+                        this.cellWidth * (this.left + colIndex),
+                        this.cellHeight * (this.top + rowIndex),
+                        this.cellWidth,
+                        this.cellHeight);
+                }
+            }
+        }
+    }
+
     getWidth() {
         const squareInfo = this.rotationInfo[this.rotation];
         const pieceWidth = Math.max.apply(null, squareInfo.map(function (row) {
             return row.length;
         }));;
         return pieceWidth;
+    }
+
+    rotate () {
+        this.rotation = (this.rotation + 1) % 4;
+        this.draw();
     }
 
     setPieceType(pieceType) {
@@ -80,7 +103,7 @@ class Piece {
                     ],
                     [
                         [true, true, true],
-                        [false, false, true],
+                        [true, false, false],
                         [false, false, false]
                     ],
                     [
@@ -113,22 +136,6 @@ class Piece {
         }
     }
 
-    draw() {
-        this.canvasCtx.fillStyle = this.color;
-        const squaresInfo = this.rotationInfo[0];
-        for (let rowIndex = 0; rowIndex < squaresInfo.length; rowIndex++) {
-            const currentRow = squaresInfo[rowIndex];
-            for (let colIndex = 0; colIndex < currentRow.length; colIndex++) {
-                if (currentRow[colIndex]) {
-                    this.canvasCtx.fillRect(
-                        this.cellWidth * (this.left + colIndex),
-                        this.cellHeight * (this.top + rowIndex),
-                        this.cellWidth,
-                        this.cellHeight);
-                }
-            }
-        }
-    }
 }
 
 
