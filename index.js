@@ -18,6 +18,7 @@ const piece = new Piece ({
 piece.draw();
 
 const piece1 = new Piece ({
+    board: tetris,
     canvas: document.getElementById('currentPiece'),
     cellWidth: 30,
     cellHeight: 30,

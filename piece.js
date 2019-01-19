@@ -1,6 +1,7 @@
 // @ts-check
 class Piece {
     constructor(options) {
+        this.board = options.board;
         this.canvas = /** @type {HTMLCanvasElement} */ (options.canvas);
         this.canvasCtx = this.canvas.getContext("2d");
         this.cellWidth = options.cellWidth;
@@ -30,13 +31,35 @@ class Piece {
             }
         }
     }
-
+    
     getWidth() {
         const squareInfo = this.rotationInfo[this.rotation];
         const pieceWidth = Math.max.apply(null, squareInfo.map(function (row) {
             return row.length;
         }));;
         return pieceWidth;
+    }
+
+    moveDown() {
+        if(this.top <= this.board.rows) {
+            this.top = this.top + 1;
+            this.draw(); 
+        }   
+    }
+
+    moveLeft() {
+        if(this.left > 0) {
+            this.left = this.left - 1;
+            this.draw();
+        }  
+    }
+
+    moveRight() {
+        if(this.left < this.board.cols - this.getWidth()) {
+            this.left = this.left + 1;
+            this.draw();
+        }  
+     
     }
 
     rotate () {

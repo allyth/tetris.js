@@ -16,12 +16,18 @@ class Tetris {
     bindEvents() {
         document.addEventListener('keydown', (event) => {
             const keyName = event.key;
-          
+
             if (keyName === 'ArrowUp') {
-              this.currentPiece.rotate();
-            }
-          
-          }, false);
+                this.currentPiece.rotate();
+            } else if (keyName === 'ArrowLeft') {
+                this.currentPiece.moveLeft();
+            } else if (keyName === 'ArrowRight') {
+                this.currentPiece.moveRight();
+            } else if (keyName === 'ArrowDown') {
+                this.currentPiece.moveDown();
+            };
+
+        }, false);
     }
 
     drawGrid() {
@@ -43,7 +49,7 @@ class Tetris {
     startGame() {
         setInterval(this.tick, 2000);
     }
-   
+
     tick() {
         if (!this.currentPiece) {
             this.currentPiece = new Piece({
@@ -54,7 +60,7 @@ class Tetris {
                 top: 5,
                 pieceType: "LINE"
             });
-                
+
         }
 
     }
