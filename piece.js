@@ -32,6 +32,11 @@ class Piece {
         }
     }
     
+    getHeight() {
+        const squareInfo = this.rotationInfo[this.rotation];
+        return squareInfo.length;
+    }
+
     getWidth() {
         const squareInfo = this.rotationInfo[this.rotation];
         const pieceWidth = Math.max.apply(null, squareInfo.map(function (row) {
@@ -40,8 +45,16 @@ class Piece {
         return pieceWidth;
     }
 
+    reachedBottom(){
+        if(this.top >= this.board.rows - this.getHeight()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     moveDown() {
-        if(this.top <= this.board.rows) {
+        if(this.reachedBottom() === false) {
             this.top = this.top + 1;
             this.draw(); 
         }   
@@ -94,8 +107,7 @@ class Piece {
                     [
                         [false, false, false, false],
                         [false, false, false, false],
-                        [true, true, true, true],
-                        [false, false, false, false]
+                        [true, true, true, true]
                     ],
                     [
                         [false, true, false, false],
@@ -127,7 +139,6 @@ class Piece {
                     [
                         [true, true, true],
                         [true, false, false],
-                        [false, false, false]
                     ],
                     [
                         [true, true, false],
