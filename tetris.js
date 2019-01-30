@@ -5,12 +5,16 @@ class Tetris {
         this.rows = options.rows;
         this.boardCanvas = /** @type {HTMLCanvasElement} */ (options.boardCanvas);
         this.boardCtx = this.boardCanvas.getContext("2d");
-        this.board = [[]];
+        this.board = [];
+        for (let i = 0; i < this.rows; i++) {
+            this.board.push([]);
+        }
         this.cellWidth = this.boardCanvas.width / this.cols;
         this.cellHeight = this.boardCanvas.height / this.rows;
         this.currentPiece = null;
 
         this.bindEvents();
+        setInterval(this.tick.bind(this), 1000);
     }
 
     bindEvents() {
@@ -51,6 +55,7 @@ class Tetris {
     }
 
     tick() {
+        // Initialize the current piece
         if (!this.currentPiece) {
             this.currentPiece = new Piece({
                 canvas: document.getElementById('currentPiece'),
@@ -60,7 +65,18 @@ class Tetris {
                 top: 5,
                 pieceType: "LINE"
             });
+        }
 
+        // Check if the current piece reached bottom
+        if (this.currentPiece && this.currentPiece.reachedBottom()) {
+            for (let x = 0; x < this.currentPiece.getSquaresInfo().length; x++) {
+                for (let y = 0; y < this.currentPiece.getSquaresInfo().length; y++) {
+                    if (this.currentPiece.getSquaresInfo()[x][y]) {
+                        this.board[this.currentPiece.left + x][this.currentPiece.top + y] = true;
+                    }
+                }
+            }
+            this.currentPiece = null;
         }
 
     }

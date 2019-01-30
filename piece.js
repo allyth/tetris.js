@@ -37,6 +37,10 @@ class Piece {
         return squareInfo.length;
     }
 
+    getSquaresInfo() {
+        return this.rotationInfo[this.rotation];
+    } 
+
     getWidth() {
         const squareInfo = this.rotationInfo[this.rotation];
         const pieceWidth = Math.max.apply(null, squareInfo.map(function (row) {
