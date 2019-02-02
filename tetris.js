@@ -5,6 +5,7 @@ class Tetris {
         this.rows = options.rows;
         this.canvas = /** @type {HTMLCanvasElement} */ (options.boardCanvas);
         this.canvasCtx = this.canvas.getContext("2d");
+        this.pieceCanvas = /** @type {HTMLCanvasElement} */ (options.pieceCanvas);
         this.board = [];
         for (let i = 0; i < this.rows; i++) {
             this.board.push([]);
@@ -73,7 +74,7 @@ class Tetris {
     refreshCurrentPiece() {
         this.currentPiece = new Piece ({
             tetris: this,
-            canvas: document.getElementById('currentPiece'),
+            canvas: document.getElementById('piece-canvas'),
             cellWidth: 30,
             cellHeight: 30,
             left: 5,

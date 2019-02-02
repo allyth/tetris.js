@@ -2,14 +2,15 @@
 const tetris = new Tetris({
     rows: 20,
     cols: 10,
-    boardCanvas: document.getElementById('board')
+    boardCanvas: document.getElementById('board'),
+    pieceCanvas: document.getElementById('piece-canvas')
 });
 
 tetris.drawGrid();
 
 const piece1 = new Piece ({
     tetris: tetris,
-    canvas: document.getElementById('currentPiece'),
+    canvas: document.getElementById('piece-canvas'),
     cellWidth: 30,
     cellHeight: 30,
     left: 5,
