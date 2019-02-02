@@ -1,7 +1,7 @@
 // @ts-check
 class Piece {
     constructor(options) {
-        this.board = options.board;
+        this.tetris = /** @type {Tetris} */ (options.tetris);
         this.canvas = /** @type {HTMLCanvasElement} */ (options.canvas);
         this.canvasCtx = this.canvas.getContext("2d");
         this.cellWidth = options.cellWidth;
@@ -31,7 +31,7 @@ class Piece {
             }
         }
     }
-    
+
     getHeight() {
         const squareInfo = this.rotationInfo[this.rotation];
         return squareInfo.length;
@@ -39,7 +39,7 @@ class Piece {
 
     getSquaresInfo() {
         return this.rotationInfo[this.rotation];
-    } 
+    }
 
     getWidth() {
         const squareInfo = this.rotationInfo[this.rotation];
@@ -49,37 +49,50 @@ class Piece {
         return pieceWidth;
     }
 
-    reachedBottom(){
-        if(this.top >= this.board.rows - this.getHeight()) {
-            return true;
-        } else {
-            return false;
+    reachedBottom() {
+        const squaresInfo = this.rotationInfo[this.rotation];
+        for (let rowIndex = 0; rowIndex < squaresInfo.length; rowIndex++) {
+            const currentRow = squaresInfo[rowIndex];
+            for (let colIndex = 0; colIndex < currentRow.length; colIndex++) {
+                if (currentRow[colIndex]) {
+                    const squareRow = this.top + rowIndex;
+                    const squareIsOnLastRow = squareRow + 1 >= this.tetris.board.length;
+                    const squareHasSomethingUnderneath = !squareIsOnLastRow && this.tetris.board[this.top + rowIndex + 1][this.left + colIndex];
+                    const squareIsDead = squareIsOnLastRow || squareHasSomethingUnderneath;
+                    const squareReachedBottom = this.top + rowIndex >= this.tetris.rows;
+                    if (squareIsDead || squareReachedBottom) {
+                        return true;
+                    }
+                }
+            }
         }
+
+        return false;
     }
 
     moveDown() {
-        if(this.reachedBottom() === false) {
+        if (this.reachedBottom() === false) {
             this.top = this.top + 1;
-            this.draw(); 
-        }   
+            this.draw();
+        }
     }
 
     moveLeft() {
-        if(this.left > 0) {
+        if (this.left > 0) {
             this.left = this.left - 1;
             this.draw();
-        }  
+        }
     }
 
     moveRight() {
-        if(this.left < this.board.cols - this.getWidth()) {
+        if (this.left < this.tetris.cols - this.getWidth()) {
             this.left = this.left + 1;
             this.draw();
-        }  
-     
+        }
+
     }
 
-    rotate () {
+    rotate() {
         this.rotation = (this.rotation + 1) % 4;
         this.draw();
     }

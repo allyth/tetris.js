@@ -7,23 +7,13 @@ const tetris = new Tetris({
 
 tetris.drawGrid();
 
-const piece = new Piece ({
-    canvas: document.getElementById('currentPiece'),
-    cellWidth: 30,
-    cellHeight: 30,
-    left: 5,
-    top: 5,
-    pieceType: "LINE"
-});
-piece.draw();
-
 const piece1 = new Piece ({
-    board: tetris,
+    tetris: tetris,
     canvas: document.getElementById('currentPiece'),
     cellWidth: 30,
     cellHeight: 30,
     left: 5,
-    top: 10,
+    top: 17,
     pieceType: "L_SHAPE",
     rotation: 0,
     color: "#4618DF"

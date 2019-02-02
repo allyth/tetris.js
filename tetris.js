@@ -72,7 +72,7 @@ class Tetris {
 
     refreshCurrentPiece() {
         this.currentPiece = new Piece ({
-            board: tetris,
+            tetris: this,
             canvas: document.getElementById('currentPiece'),
             cellWidth: 30,
             cellHeight: 30,
@@ -89,18 +89,6 @@ class Tetris {
     }
 
     tick() {
-        // Initialize the current piece
-        if (!this.currentPiece) {
-            this.currentPiece = new Piece({
-                canvas: document.getElementById('currentPiece'),
-                cellWidth: 30,
-                cellHeight: 30,
-                left: Math.round(this.cols / 2) - this.cols,
-                top: 5,
-                pieceType: "LINE"
-            });
-        }
-
         // Check if the current piece reached bottom
         if (this.currentPiece && this.currentPiece.reachedBottom()) {
             const squaresInfo = this.currentPiece.getSquaresInfo();
