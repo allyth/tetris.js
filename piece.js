@@ -78,17 +78,45 @@ class Piece {
     }
 
     moveLeft() {
-        if (this.left > 0) {
-            this.left = this.left - 1;
-            this.draw();
+        if (this.left <= 0) {
+            return;
         }
+
+        const squaresInfo = this.rotationInfo[this.rotation];
+        for (let rowIndex = 0; rowIndex < squaresInfo.length; rowIndex++) {
+            const currentRow = squaresInfo[rowIndex];
+            for (let colIndex = 0; colIndex < currentRow.length; colIndex++) {
+                const pieceCellExists = squaresInfo[rowIndex][colIndex];
+                const boardCellExists = this.tetris.board[rowIndex + this.top][colIndex + this.left - 1];
+                if (pieceCellExists && boardCellExists) {
+                    return;
+                }
+            }
+        }
+
+        this.left = this.left - 1;
+        this.draw();
     }
 
     moveRight() {
-        if (this.left < this.tetris.cols - this.getWidth()) {
-            this.left = this.left + 1;
-            this.draw();
+        if (this.left >= this.tetris.cols - this.getWidth()) {
+            return;
         }
+
+        const squaresInfo = this.rotationInfo[this.rotation];
+        for (let rowIndex = 0; rowIndex < squaresInfo.length; rowIndex++) {
+            const currentRow = squaresInfo[rowIndex];
+            for (let colIndex = 0; colIndex < currentRow.length; colIndex++) {
+                const pieceCellExists = squaresInfo[rowIndex][colIndex];
+                const boardCellExists = this.tetris.board[rowIndex + this.top][colIndex + this.left + 1];
+                if (pieceCellExists && boardCellExists) {
+                    return;
+                }
+            }
+        }
+
+        this.left = this.left + 1;
+        this.draw();
 
     }
 
