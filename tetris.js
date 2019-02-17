@@ -38,7 +38,7 @@ class Tetris {
     clearCanvas() {
         this.canvasCtx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     }
-    
+
     drawGrid() {
         for (let i = 1; i <= this.cols - 1; i++) {
             this.canvasCtx.beginPath();
@@ -54,7 +54,7 @@ class Tetris {
             this.canvasCtx.stroke();
         }
     }
-    
+
     drawSquares() {
         this.canvasCtx.fillStyle = 'blue';
         for (let rowIndex = 0; rowIndex < this.board.length; rowIndex++) {
@@ -72,7 +72,7 @@ class Tetris {
     }
 
     refreshCurrentPiece() {
-        this.currentPiece = new Piece ({
+        this.currentPiece = new Piece({
             tetris: this,
             canvas: document.getElementById('piece-canvas'),
             cellWidth: 30,
@@ -82,6 +82,28 @@ class Tetris {
             pieceType: "L_SHAPE",
             rotation: 0,
             color: "#4618DF"
+        });
+    }
+
+    removeCompletedRows() {
+        const completedRows = [];
+        for (let rowIndex = 0; rowIndex < this.board.length; rowIndex++) {
+            const currentRow = this.board[rowIndex];
+            let currentRowIsCompletē = currentRow.length && true;
+            for (let colIndex = 0; colIndex < currentRow.length; colIndex++) {
+                if (!currentRow[colIndex]) {
+                    currentRowIsCompletē = false;
+                    break;
+                }
+            }
+            if (currentRowIsCompletē) {
+                completedRows.push(rowIndex);
+            }
+        }
+        const self = this;
+        completedRows.forEach(function(rowIndex){
+            self.board.splice(rowIndex, 1);
+            self.board.unshift([]);
         });
     }
 
@@ -101,6 +123,7 @@ class Tetris {
                     }
                 }
             }
+            this.removeCompletedRows();
             this.refreshCurrentPiece();
             this.clearCanvas();
             this.drawGrid();
