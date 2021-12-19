@@ -91,14 +91,14 @@ class Tetris {
         const completedRows = [];
         for (let rowIndex = 0; rowIndex < this.board.length; rowIndex++) {
             const currentRow = this.board[rowIndex];
-            let currentRowIsCompletē = currentRow.length && true;
-            for (let colIndex = 0; colIndex < currentRow.length; colIndex++) {
+            let currentRowIsComplete = currentRow.length && true;
+            for (let colIndex = 0; colIndex < this.cols; colIndex++) {
                 if (!currentRow[colIndex]) {
-                    currentRowIsCompletē = false;
+                    currentRowIsComplete = false;
                     break;
                 }
             }
-            if (currentRowIsCompletē) {
+            if (currentRowIsComplete) {
                 completedRows.push(rowIndex);
             }
         }
