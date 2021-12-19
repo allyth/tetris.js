@@ -55,8 +55,11 @@ class Piece {
             const currentRow = squaresInfo[rowIndex];
             for (let colIndex = 0; colIndex < currentRow.length; colIndex++) {
                 if (currentRow[colIndex]) {
-                    const squareRow = this.top + rowIndex;
-                    const squareIsOnLastRow = squareRow + 1 >= this.tetris.board.length;
+                    const squareTop = this.top + rowIndex;
+                    const squareIsOnLastRow = squareTop >= this.tetris.rows - 1;
+                    if (squareIsOnLastRow) {
+                        return true;
+                    }
                     const squareHasSomethingUnderneath = !squareIsOnLastRow && this.tetris.board[this.top + rowIndex + 1][this.left + colIndex];
                     const squareIsDead = squareIsOnLastRow || squareHasSomethingUnderneath;
                     const squareReachedBottom = this.top + rowIndex >= this.tetris.rows;
