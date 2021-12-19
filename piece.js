@@ -8,7 +8,7 @@ class Piece {
         this.cellHeight = options.cellHeight;
         this.left = options.left;
         this.top = options.top;
-        this.color = options.color || '#89cff0';
+        this.color = options.color || '#FED9B7';
         this.pieceType = options.pieceType;
         this.rotation = options.rotation || 0;
         this.setPieceType(this.pieceType);

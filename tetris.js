@@ -40,14 +40,16 @@ class Tetris {
     }
 
     drawGrid() {
-        for (let i = 1; i <= this.cols - 1; i++) {
+        this.canvasCtx.lineWidth = 1;
+
+        for (let i = 0; i <= this.cols; i++) {
             this.canvasCtx.beginPath();
             this.canvasCtx.moveTo(this.cellWidth * i, 0);
             this.canvasCtx.lineTo(this.cellWidth * i, this.canvas.height);
             this.canvasCtx.stroke();
         }
 
-        for (let i = 1; i <= this.rows - 1; i++) {
+        for (let i = 0; i <= this.rows; i++) {
             this.canvasCtx.beginPath();
             this.canvasCtx.moveTo(0, this.cellHeight * i);
             this.canvasCtx.lineTo(this.canvas.height, this.cellHeight * i);
@@ -56,7 +58,7 @@ class Tetris {
     }
 
     drawSquares() {
-        this.canvasCtx.fillStyle = 'blue';
+        this.canvasCtx.fillStyle = "#F07167";
         for (let rowIndex = 0; rowIndex < this.board.length; rowIndex++) {
             const currentRow = this.board[rowIndex];
             for (let colIndex = 0; colIndex < currentRow.length; colIndex++) {
@@ -81,7 +83,7 @@ class Tetris {
             top: 0,
             pieceType: "L_SHAPE",
             rotation: 0,
-            color: "#4618DF"
+            color: "#FED9B7"
         });
     }
 
