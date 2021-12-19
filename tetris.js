@@ -74,14 +74,17 @@ class Tetris {
     }
 
     refreshCurrentPiece() {
+        const pieceTypes = ['SQUARE', 'LINE', 'L_SHAPE', 'Z_SHAPE', 'T_SHAPE'];
+        const randIndex =  Math.floor(Math.random() * (pieceTypes.length));
+        const canvasElement = /** @type {HTMLCanvasElement} */ (document.getElementById('piece-canvas'));
         this.currentPiece = new Piece({
             tetris: this,
-            canvas: document.getElementById('piece-canvas'),
-            cellWidth: 30,
-            cellHeight: 30,
+            canvas: canvasElement,
+            cellWidth: canvasElement.width / this.cols,
+            cellHeight: canvasElement.height / this.rows,
             left: 5,
             top: 0,
-            pieceType: "L_SHAPE",
+            pieceType: pieceTypes[randIndex],
             rotation: 0,
             color: "#FED9B7"
         });
@@ -114,6 +117,7 @@ class Tetris {
     }
 
     tick() {
+        this.currentPiece.moveDown();
         // Check if the current piece reached bottom
         if (this.currentPiece && this.currentPiece.reachedBottom()) {
             const squaresInfo = this.currentPiece.getSquaresInfo();
