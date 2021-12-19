@@ -1,4 +1,4 @@
-// @ts-check
+ // @ts-check
 class Piece {
     constructor(options) {
         this.tetris = /** @type {Tetris} */ (options.tetris);
@@ -121,7 +121,12 @@ class Piece {
     }
 
     rotate() {
+        // Cycle through the 4 rotation indices (0 to 3)
         this.rotation = (this.rotation + 1) % 4;
+        const pieceWidth = this.getWidth();
+        if ((pieceWidth + this.left) > this.tetris.cols) {
+            this.left = this.tetris.cols - pieceWidth;
+        }
         this.draw();
     }
 
