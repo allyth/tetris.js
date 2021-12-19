@@ -11,6 +11,12 @@ class Piece {
         this.color = options.color || '#FED9B7';
         this.pieceType = options.pieceType;
         this.rotation = options.rotation || 0;
+        this.rotationOffset = [ 
+            [0, 0],
+            [0, 0],
+            [0, 0],
+            [0, 0]
+        ];
         this.setPieceType(this.pieceType);
     }
 
@@ -43,10 +49,7 @@ class Piece {
 
     getWidth() {
         const squareInfo = this.rotationInfo[this.rotation];
-        const pieceWidth = Math.max.apply(null, squareInfo.map(function (row) {
-            return row.length;
-        }));;
-        return pieceWidth;
+        return squareInfo[0].length;
     }
 
     reachedBottom() {
@@ -126,10 +129,21 @@ class Piece {
     rotate() {
         // Cycle through the 4 rotation indices (0 to 3)
         this.rotation = (this.rotation + 1) % 4;
+
+        this.left += this.rotationOffset[this.rotation][0];
+        this.top += this.rotationOffset[this.rotation][1];
+
         const pieceWidth = this.getWidth();
+
+        // Check if piece exceeds right bound
         if ((pieceWidth + this.left) > this.tetris.cols) {
             this.left = this.tetris.cols - pieceWidth;
         }
+        // Check if piece exceeds left bound
+        if (this.left < 0) {
+            this.left = 0;
+        }
+
         this.draw();
     }
 
@@ -156,29 +170,30 @@ class Piece {
                 ];
                 break;
             case "LINE":
+                this.rotationOffset = [ 
+                    [-1, 1],
+                    [1, -1],
+                    [-1, 1],
+                    [1, -1]
+                ];
                 this.rotationInfo = [
                     [
-                        [false, false, false, false],
-                        [false, false, false, false],
                         [true, true, true, true]
                     ],
                     [
-                        [false, true, false, false],
-                        [false, true, false, false],
-                        [false, true, false, false],
-                        [false, true, false, false]
+                        [true],
+                        [true],
+                        [true],
+                        [true]
                     ],
                     [
-                        [false, false, false, false],
-                        [false, false, false, false],
                         [true, true, true, true],
-                        [false, false, false, false]
                     ],
                     [
-                        [false, true, false, false],
-                        [false, true, false, false],
-                        [false, true, false, false],
-                        [false, true, false, false]
+                        [true],
+                        [true],
+                        [true],
+                        [true]
                     ]
                 ];
                 break;
@@ -206,15 +221,47 @@ class Piece {
                 ];
                 break;
             case "T_SHAPE":
-                this.squaresInfo = [
-                    [true, true, true],
-                    [false, true, false]
+                this.rotationInfo = [
+                    [
+                        [true, true, true],
+                        [false, true, false]
+                    ],                    
+                    [
+                        [false, true],
+                        [true, true],
+                        [false, true]
+                    ],                    
+                    [
+                        [false, true, false],
+                        [true, true, true]
+                    ],                    
+                    [
+                        [true, false],
+                        [true, true],
+                        [true, false]
+                    ]                    
                 ];
                 break;
             case "Z_SHAPE":
-                this.squaresInfo = [
-                    [true, true],
-                    [false, true, true],
+                this.rotationInfo = [
+                    [
+                        [true, true, false],
+                        [false, true, true],
+                    ],
+                    [
+                        [false, true],
+                        [true, true],
+                        [true, false]
+                    ],
+                    [
+                        [true, true, false],
+                        [false, true, true],
+                    ],
+                    [
+                        [false, true],
+                        [true, true],
+                        [true, false]
+                    ]
                 ];
                 break;
             default:
